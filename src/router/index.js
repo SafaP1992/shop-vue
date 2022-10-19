@@ -1,11 +1,62 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ProductView from '../views/SinglePage/ProductView.vue'
+
+import Products from '../views/Admin/Products.vue'
+import Posts from '../views/Admin/Posts.vue'
+import Users from '../views/Admin/Users.vue'
+
+import IndexAdmin from '../views/Admin/Index.vue'
+
+import MainLayout from '../layouts/MainLayout.vue'
+import AdminLayout from '../layouts/AdminLayout.vue'
+
+import NotFound from '../views/NotFound.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    component: MainLayout,
+    children: [
+      {
+        path: '',
+        name: 'home',
+        component: HomeView,
+      },
+      {
+        path: 'product/:id/:title',
+        name: 'SingleProduct',
+        component: ProductView
+      },
+      {
+        path: 'search',
+        name: 'Search',
+        component: () => import("../views/SearchView.vue"),
+      },
+      {path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound}
+    ]
+  },
+  {
+    path: '/admin',
+    component: AdminLayout,
+    children: [
+      {
+        path: '',
+        component: IndexAdmin,
+      },
+      {
+        path: 'users',
+        component: Users
+      },
+      {
+        path: 'products',
+        component: Products
+      },
+      {
+        path: 'posts',
+        component: Posts
+      },
+    ]
   },
   {
     path: '/about',
